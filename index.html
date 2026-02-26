@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Tanjela Akter — AI & Data Scientist</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --card: #16161f;
+    --border: #2a2a38;
+    --accent: #7c6af5;
+    --accent2: #e066a0;
+    --gold: #f0c060;
+    --text: #e8e8f0;
+    --muted: #7a7a92;
+    --font-display: 'Playfair Display', serif;
+    --font-body: 'DM Sans', sans-serif;
+    --font-mono: 'DM Mono', monospace;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-weight: 300;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE TEXTURE ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: .5;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 4rem;
+    background: rgba(10,10,15,.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    letter-spacing: .02em;
+    color: var(--text);
+  }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    font-size: .82rem; font-weight: 500; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--muted);
+    text-decoration: none; transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding: 8rem 4rem 4rem;
+    position: relative; overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0; z-index: 0;
+    background: radial-gradient(ellipse 60% 60% at 70% 40%, rgba(124,106,245,.15) 0%, transparent 70%),
+                radial-gradient(ellipse 40% 40% at 20% 70%, rgba(224,102,160,.1) 0%, transparent 70%);
+  }
+  .hero-content { position: relative; z-index: 1; max-width: 800px; }
+  .hero-tag {
+    display: inline-block;
+    font-family: var(--font-mono); font-size: .75rem;
+    color: var(--accent); letter-spacing: .15em;
+    border: 1px solid rgba(124,106,245,.4);
+    padding: .3rem .9rem; border-radius: 2rem;
+    margin-bottom: 2rem;
+    animation: fadeUp .6s ease both;
+  }
+  h1 {
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 7vw, 6rem);
+    line-height: 1.05;
+    animation: fadeUp .7s .1s ease both;
+  }
+  h1 em { font-style: italic; color: var(--accent2); }
+  .hero-sub {
+    margin-top: 1.5rem; font-size: 1.15rem;
+    color: var(--muted); max-width: 520px;
+    animation: fadeUp .7s .2s ease both;
+  }
+  .hero-actions {
+    margin-top: 2.5rem; display: flex; gap: 1rem; flex-wrap: wrap;
+    animation: fadeUp .7s .3s ease both;
+  }
+  .btn {
+    display: inline-flex; align-items: center; gap: .5rem;
+    padding: .85rem 2rem; border-radius: .4rem;
+    font-size: .9rem; font-weight: 500; letter-spacing: .04em;
+    text-decoration: none; cursor: pointer; transition: all .2s;
+    border: none;
+  }
+  .btn-primary {
+    background: var(--accent); color: #fff;
+  }
+  .btn-primary:hover { background: #6a59e0; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(124,106,245,.35); }
+  .btn-outline {
+    background: transparent; color: var(--text);
+    border: 1px solid var(--border);
+  }
+  .btn-outline:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+
+  .hero-stats {
+    display: flex; gap: 3rem; margin-top: 4rem;
+    animation: fadeUp .7s .4s ease both;
+  }
+  .stat-num {
+    font-family: var(--font-display); font-size: 2.4rem;
+    color: var(--gold); line-height: 1;
+  }
+  .stat-label { font-size: .78rem; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; margin-top: .3rem; }
+
+  /* ── SECTIONS ── */
+  section { padding: 6rem 4rem; }
+  .section-label {
+    font-family: var(--font-mono); font-size: .75rem;
+    color: var(--accent); letter-spacing: .2em; text-transform: uppercase;
+    margin-bottom: .8rem;
+  }
+  h2 {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.15; margin-bottom: 3rem;
+  }
+
+  /* ── ABOUT ── */
+  #about { background: var(--surface); }
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+  .about-text p { color: var(--muted); font-size: 1rem; margin-bottom: 1.2rem; }
+  .interests-grid { display: flex; flex-wrap: wrap; gap: .7rem; margin-top: 1.5rem; }
+  .tag {
+    background: rgba(124,106,245,.1); border: 1px solid rgba(124,106,245,.25);
+    color: var(--accent); padding: .35rem 1rem;
+    border-radius: 2rem; font-size: .82rem; font-family: var(--font-mono);
+  }
+  .about-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 1.2rem; padding: 2.5rem;
+    display: flex; flex-direction: column; gap: 1.5rem;
+  }
+  .about-card-item { display: flex; gap: 1rem; align-items: flex-start; }
+  .about-icon {
+    width: 42px; height: 42px; border-radius: .6rem;
+    background: rgba(124,106,245,.12); border: 1px solid rgba(124,106,245,.2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem; flex-shrink: 0;
+  }
+  .about-card-title { font-weight: 500; font-size: .95rem; margin-bottom: .2rem; }
+  .about-card-sub { color: var(--muted); font-size: .85rem; }
+
+  /* ── EXPERIENCE ── */
+  #experience { }
+  .exp-list { display: flex; flex-direction: column; gap: 2rem; }
+  .exp-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 1rem; padding: 2rem 2.5rem;
+    display: grid; grid-template-columns: 1fr auto;
+    gap: 1rem; align-items: start;
+    transition: border-color .2s, transform .2s;
+  }
+  .exp-card:hover { border-color: var(--accent); transform: translateX(4px); }
+  .exp-company { font-family: var(--font-mono); font-size: .8rem; color: var(--accent); margin-bottom: .4rem; letter-spacing: .08em; }
+  .exp-role { font-family: var(--font-display); font-size: 1.35rem; margin-bottom: .8rem; }
+  .exp-bullets { list-style: none; }
+  .exp-bullets li {
+    color: var(--muted); font-size: .9rem; padding: .3rem 0;
+    padding-left: 1rem; position: relative;
+  }
+  .exp-bullets li::before { content: '→'; position: absolute; left: 0; color: var(--accent); }
+  .exp-date {
+    font-family: var(--font-mono); font-size: .78rem;
+    color: var(--muted); white-space: nowrap;
+    background: rgba(255,255,255,.04); border: 1px solid var(--border);
+    padding: .3rem .8rem; border-radius: 2rem; height: fit-content;
+  }
+  .exp-achieve {
+    margin-top: 1rem; background: rgba(240,192,96,.08);
+    border: 1px solid rgba(240,192,96,.2); border-radius: .6rem;
+    padding: .7rem 1rem; color: var(--gold); font-size: .85rem;
+  }
+
+  /* ── PUBLICATIONS ── */
+  #publications { background: var(--surface); }
+  .pub-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  .pub-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 1rem; padding: 2rem;
+    transition: border-color .2s;
+  }
+  .pub-card:hover { border-color: var(--accent2); }
+  .pub-journal {
+    font-family: var(--font-mono); font-size: .75rem;
+    color: var(--accent2); letter-spacing: .1em; margin-bottom: .6rem;
+  }
+  .pub-title { font-family: var(--font-display); font-size: 1.15rem; margin-bottom: .8rem; }
+  .pub-desc { color: var(--muted); font-size: .88rem; }
+  .pub-status {
+    display: inline-block; margin-top: 1rem;
+    font-size: .75rem; font-family: var(--font-mono);
+    padding: .25rem .75rem; border-radius: 2rem;
+  }
+  .status-published { background: rgba(96,200,120,.1); border: 1px solid rgba(96,200,120,.3); color: #60c878; }
+  .status-wip { background: rgba(240,192,96,.1); border: 1px solid rgba(240,192,96,.3); color: var(--gold); }
+
+  /* ── PROJECTS ── */
+  #projects { }
+  .projects-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+  .proj-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 1rem; padding: 2rem; position: relative; overflow: hidden;
+    transition: transform .2s, border-color .2s;
+  }
+  .proj-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    transform: scaleX(0); transform-origin: left;
+    transition: transform .3s;
+  }
+  .proj-card:hover { transform: translateY(-4px); border-color: var(--accent); }
+  .proj-card:hover::before { transform: scaleX(1); }
+  .proj-year {
+    font-family: var(--font-mono); font-size: .75rem; color: var(--muted);
+    margin-bottom: .5rem;
+  }
+  .proj-name { font-family: var(--font-display); font-size: 1.2rem; margin-bottom: .8rem; }
+  .proj-desc { color: var(--muted); font-size: .88rem; margin-bottom: 1.2rem; }
+  .proj-skills { display: flex; flex-wrap: wrap; gap: .4rem; }
+  .proj-skill {
+    font-size: .72rem; font-family: var(--font-mono);
+    background: rgba(255,255,255,.05); border: 1px solid var(--border);
+    padding: .2rem .6rem; border-radius: .3rem; color: var(--muted);
+  }
+  .proj-badge {
+    display: inline-block; font-size: .72rem; font-family: var(--font-mono);
+    background: rgba(224,102,160,.1); border: 1px solid rgba(224,102,160,.25);
+    color: var(--accent2); padding: .2rem .7rem; border-radius: 2rem;
+    margin-bottom: .8rem;
+  }
+
+  /* ── SKILLS ── */
+  #skills { background: var(--surface); }
+  .skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+  .skill-group {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 1rem; padding: 2rem;
+  }
+  .skill-group-title {
+    font-family: var(--font-mono); font-size: .78rem;
+    color: var(--accent); letter-spacing: .1em; text-transform: uppercase;
+    margin-bottom: 1.2rem;
+  }
+  .skill-items { display: flex; flex-wrap: wrap; gap: .5rem; }
+  .skill-item {
+    background: rgba(255,255,255,.05); border: 1px solid var(--border);
+    color: var(--text); font-size: .82rem;
+    padding: .3rem .8rem; border-radius: .4rem;
+  }
+
+  /* ── EDUCATION ── */
+  #education { }
+  .edu-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 1rem; padding: 2.5rem; max-width: 680px;
+    display: grid; grid-template-columns: auto 1fr; gap: 2rem; align-items: center;
+  }
+  .edu-badge {
+    width: 64px; height: 64px; border-radius: 1rem;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.8rem; flex-shrink: 0;
+  }
+  .edu-uni { font-family: var(--font-display); font-size: 1.4rem; margin-bottom: .4rem; }
+  .edu-degree { color: var(--muted); font-size: .9rem; margin-bottom: .8rem; }
+  .edu-grades { display: flex; gap: 1.5rem; }
+  .edu-grade-item { text-align: center; }
+  .edu-grade-val { font-family: var(--font-display); font-size: 1.4rem; color: var(--gold); }
+  .edu-grade-label { font-size: .72rem; color: var(--muted); font-family: var(--font-mono); }
+
+  /* ── CONTACT ── */
+  #contact {
+    background: var(--surface);
+    text-align: center;
+  }
+  #contact h2 { margin-bottom: 1rem; }
+  #contact p { color: var(--muted); max-width: 480px; margin: 0 auto 2.5rem; }
+  .contact-links { display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; }
+  .contact-link {
+    display: flex; align-items: center; gap: .6rem;
+    background: var(--card); border: 1px solid var(--border);
+    color: var(--text); text-decoration: none;
+    padding: .9rem 1.8rem; border-radius: .6rem;
+    font-size: .9rem; transition: all .2s;
+  }
+  .contact-link:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center; padding: 2rem;
+    color: var(--muted); font-size: .82rem;
+    border-top: 1px solid var(--border);
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .reveal {
+    opacity: 0; transform: translateY(24px);
+    transition: opacity .6s ease, transform .6s ease;
+  }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  /* ── RESPONSIVE ── */
+  @media(max-width: 900px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { gap: 1.2rem; }
+    section { padding: 4rem 1.5rem; }
+    #hero { padding: 7rem 1.5rem 3rem; }
+    .about-grid, .pub-grid, .projects-grid, .skills-grid { grid-template-columns: 1fr; }
+    .hero-stats { gap: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Tanjela Akter</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#publications">Research</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-tag">// AI Researcher & Data Scientist</div>
+    <h1>Tanjela<br/><em>Akter</em></h1>
+    <p class="hero-sub">Building intelligent systems at the intersection of machine learning, NLP, and real-world impact. Published researcher. Dhaka, Bangladesh.</p>
+    <div class="hero-actions">
+      <a href="#projects" class="btn btn-primary">View Projects</a>
+      <a href="#contact" class="btn btn-outline">Get in Touch</a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="stat-num">150+</div>
+        <div class="stat-label">Students Mentored</div>
+      </div>
+      <div>
+        <div class="stat-num">$21K</div>
+        <div class="stat-label">Revenue Generated</div>
+      </div>
+      <div>
+        <div class="stat-num">2</div>
+        <div class="stat-label">Publications</div>
+      </div>
+      <div>
+        <div class="stat-num">90%</div>
+        <div class="stat-label">Model Accuracy</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="reveal">
+    <div class="section-label">// 01. About</div>
+    <h2>Who I Am</h2>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>I'm a data scientist and AI researcher with a Physics background from Shahjalal University of Science and Technology. My work spans machine learning, natural language processing, and deep learning — with a focus on building things that actually work in the real world.</p>
+        <p>Currently at Daraz (Alibaba Group), I analyze 30,000+ daily customer queries, build AI-powered solutions, and led a campaign that generated over $21,000 in revenue. I've also published research in astrophysics using machine learning methods.</p>
+        <div class="interests-grid">
+          <span class="tag">Deep Learning</span>
+          <span class="tag">NLP</span>
+          <span class="tag">Machine Learning</span>
+          <span class="tag">Data Analytics</span>
+          <span class="tag">Computer Vision</span>
+          <span class="tag">Conversational AI</span>
+        </div>
+      </div>
+      <div class="about-card">
+        <div class="about-card-item">
+          <div class="about-icon">🎓</div>
+          <div>
+            <div class="about-card-title">Physics Graduate</div>
+            <div class="about-card-sub">B.Sc. Physics — SUST, 3.19/4.0 GPA</div>
+          </div>
+        </div>
+        <div class="about-card-item">
+          <div class="about-icon">🔬</div>
+          <div>
+            <div class="about-card-title">Published Researcher</div>
+            <div class="about-card-sub">Astronomy & Astrophysics, 2025</div>
+          </div>
+        </div>
+        <div class="about-card-item">
+          <div class="about-icon">🏆</div>
+          <div>
+            <div class="about-card-title">Government Scholar</div>
+            <div class="about-card-sub">Bangladesh HSC General Category, 2016–2018</div>
+          </div>
+        </div>
+        <div class="about-card-item">
+          <div class="about-icon">🌍</div>
+          <div>
+            <div class="about-card-title">Global Educator</div>
+            <div class="about-card-sub">Taught Python & Scratch worldwide</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="reveal">
+    <div class="section-label">// 02. Experience</div>
+    <h2>Where I've Worked</h2>
+    <div class="exp-list">
+
+      <div class="exp-card">
+        <div>
+          <div class="exp-company">Daraz · Alibaba Group</div>
+          <div class="exp-role">Chatbot Associate</div>
+          <ul class="exp-bullets">
+            <li>Preprocessed and analyzed large datasets from over 30,000 daily customer queries</li>
+            <li>Built dashboards and ML solutions using Python, Power BI, and Alibaba's data tools</li>
+            <li>Identified key trends to improve chatbot performance and customer resolution rates</li>
+          </ul>
+          <div class="exp-achieve">🏆 Achievement: Led AI-based revenue project generating $21,062.68 during 11.11 Campaign 2023</div>
+        </div>
+        <div class="exp-date">Sep 2023 – Present</div>
+      </div>
+
+      <div class="exp-card">
+        <div>
+          <div class="exp-company">Dreamers Academy</div>
+          <div class="exp-role">Coding Instructor</div>
+          <ul class="exp-bullets">
+            <li>Delivered one-on-one and batch training sessions worldwide</li>
+            <li>Mentored 150+ students in Python and Scratch programming</li>
+            <li>Helped students develop strong problem-solving skills and academic results</li>
+          </ul>
+        </div>
+        <div class="exp-date">Oct 2022 – Aug 2023</div>
+      </div>
+
+      <div class="exp-card">
+        <div>
+          <div class="exp-company">Bangladesh Innovation Academy</div>
+          <div class="exp-role">Coding Instructor</div>
+          <ul class="exp-bullets">
+            <li>Taught Scratch and Python to students worldwide during the pandemic</li>
+            <li>Helped students understand programming logic and how computers work</li>
+          </ul>
+        </div>
+        <div class="exp-date">Feb 2019 – Sep 2022</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PUBLICATIONS -->
+<section id="publications">
+  <div class="reveal">
+    <div class="section-label">// 03. Research</div>
+    <h2>Publications</h2>
+    <div class="pub-grid">
+      <div class="pub-card">
+        <div class="pub-journal">Astronomy & Astrophysics, 699, A259 · 2025</div>
+        <div class="pub-title">Studying Massive Elliptical Galaxies through Strong Lensing</div>
+        <p class="pub-desc">Analyzed relationships between galaxy positioning, angles, and object density using data-driven methods and machine learning models to generate actionable astrophysical insights.</p>
+        <span class="pub-status status-published">Published</span>
+      </div>
+      <div class="pub-card">
+        <div class="pub-journal">Manuscript in Preparation</div>
+        <div class="pub-title">Empathetic Responses in Conversational AI</div>
+        <p class="pub-desc">Investigating how large language models generate empathetic replies, with a focus on emotional alignment, response appropriateness, and user trust.</p>
+        <span class="pub-status status-wip">In Progress</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="reveal">
+    <div class="section-label">// 04. Projects</div>
+    <h2>Things I've Built</h2>
+    <div class="projects-grid">
+
+      <div class="proj-card">
+        <div class="proj-year">2022 · SUST</div>
+        <div class="proj-name">Skin Cancer Detection — HAM10000</div>
+        <p class="proj-desc">Developed a machine learning model on 10,000 skin cancer cases achieving 90% accuracy in detecting and classifying lesions.</p>
+        <div class="proj-skills">
+          <span class="proj-skill">Python</span>
+          <span class="proj-skill">ML</span>
+          <span class="proj-skill">NLP</span>
+          <span class="proj-skill">LLM</span>
+        </div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-badge">Alibaba Group</div>
+        <div class="proj-year">2023</div>
+        <div class="proj-name">Seller Chatbot "SIA"</div>
+        <p class="proj-desc">Built an AI-powered seller assistant chatbot resulting in approximately $60,000 in cost efficiency for Bangladesh operations.</p>
+        <div class="proj-skills">
+          <span class="proj-skill">Python</span>
+          <span class="proj-skill">NLP</span>
+          <span class="proj-skill">LLM</span>
+          <span class="proj-skill">Machine Learning</span>
+        </div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-badge">Alibaba Group</div>
+        <div class="proj-year">2023</div>
+        <div class="proj-name">Customer Experience Quest</div>
+        <p class="proj-desc">Added an interactive Dice game and Mystery Box promo to a chatbot, boosting customer engagement and brand experience during campaigns.</p>
+        <div class="proj-skills">
+          <span class="proj-skill">Python</span>
+          <span class="proj-skill">JavaScript</span>
+          <span class="proj-skill">HTML5</span>
+          <span class="proj-skill">CSS</span>
+        </div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-badge">Alibaba Group</div>
+        <div class="proj-year">2023</div>
+        <div class="proj-name">Dynamic Response System for Delivery Delays</div>
+        <p class="proj-desc">Built a priority-based response system for delivery delays, personalizing resolution based on delay severity (not delayed, 3 days, 3+ days).</p>
+        <div class="proj-skills">
+          <span class="proj-skill">Python</span>
+          <span class="proj-skill">Statistical Analysis</span>
+          <span class="proj-skill">JavaScript</span>
+          <span class="proj-skill">Data Visualization</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="reveal">
+    <div class="section-label">// 05. Skills</div>
+    <h2>Tools & Technologies</h2>
+    <div class="skills-grid">
+      <div class="skill-group">
+        <div class="skill-group-title">Languages</div>
+        <div class="skill-items">
+          <span class="skill-item">Python</span>
+          <span class="skill-item">C</span>
+          <span class="skill-item">C++</span>
+          <span class="skill-item">Java</span>
+          <span class="skill-item">JavaScript</span>
+          <span class="skill-item">HTML</span>
+          <span class="skill-item">CSS</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">ML & Deep Learning</div>
+        <div class="skill-items">
+          <span class="skill-item">scikit-learn</span>
+          <span class="skill-item">PyTorch</span>
+          <span class="skill-item">NumPy</span>
+          <span class="skill-item">pandas</span>
+          <span class="skill-item">CUDA</span>
+          <span class="skill-item">cuDNN</span>
+          <span class="skill-item">matplotlib</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">NLP</div>
+        <div class="skill-items">
+          <span class="skill-item">NLTK</span>
+          <span class="skill-item">Transformers</span>
+          <span class="skill-item">Tokenization</span>
+          <span class="skill-item">RNN / ANN</span>
+          <span class="skill-item">Fine-tuning LLMs</span>
+          <span class="skill-item">Stemming</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">Data & Analytics</div>
+        <div class="skill-items">
+          <span class="skill-item">Power BI</span>
+          <span class="skill-item">Excel</span>
+          <span class="skill-item">Time Series</span>
+          <span class="skill-item">Hypothesis Testing</span>
+          <span class="skill-item">Experimental Design</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">Engineering</div>
+        <div class="skill-items">
+          <span class="skill-item">Git</span>
+          <span class="skill-item">APIs</span>
+          <span class="skill-item">OOP / OOD</span>
+          <span class="skill-item">Agile</span>
+          <span class="skill-item">UAT</span>
+          <span class="skill-item">Code Review</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">Education</div>
+        <div class="skill-items">
+          <span class="skill-item">Python Instruction</span>
+          <span class="skill-item">Scratch</span>
+          <span class="skill-item">Curriculum Design</span>
+          <span class="skill-item">1:1 Mentoring</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="reveal">
+    <div class="section-label">// 06. Education</div>
+    <h2>Academic Background</h2>
+    <div class="edu-card">
+      <div class="edu-badge">🔭</div>
+      <div>
+        <div class="edu-uni">Shahjalal University of Science and Technology</div>
+        <div class="edu-degree">Bachelor of Science in Physics · 2018 – 2023</div>
+        <div class="edu-grades">
+          <div class="edu-grade-item">
+            <div class="edu-grade-val">3.19</div>
+            <div class="edu-grade-label">Overall GPA</div>
+          </div>
+          <div class="edu-grade-item">
+            <div class="edu-grade-val">3.71</div>
+            <div class="edu-grade-label">5th Semester</div>
+          </div>
+          <div class="edu-grade-item">
+            <div class="edu-grade-val">3.58</div>
+            <div class="edu-grade-label">6th Semester</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="reveal">
+    <div class="section-label">// 07. Contact</div>
+    <h2>Let's Connect</h2>
+    <p>Open to research collaborations, data science roles, and interesting AI projects. Feel free to reach out!</p>
+    <div class="contact-links">
+      <a href="tel:+8801790640644" class="contact-link">📱 +880-1790640644</a>
+      <a href="mailto:your@email.com" class="contact-link">✉️ Email Me</a>
+      <a href="https://linkedin.com" target="_blank" class="contact-link">💼 LinkedIn</a>
+      <a href="https://github.com" target="_blank" class="contact-link">💻 GitHub</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2025 Tanjela Akter · Built with care</p>
+</footer>
+
+<script>
+  // Scroll reveal
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
